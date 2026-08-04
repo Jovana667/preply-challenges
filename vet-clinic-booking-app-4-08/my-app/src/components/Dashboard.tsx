@@ -45,4 +45,28 @@ export function Dashboard({ user, onLogout }: Props) {
     setToast("Appointment booked successfully.");
     }
 
+    function updateAppointment(id: string, data: AppointmentFormData) {
+        const conflict = appointments.some(
+            (a) =>
+                a.id !== data.id &&
+            a.date === data.date &&
+            a.time === data.time &&
+            a.vetName === data.vetName &&
+            a.status !== "cancelled",
+        );
+        if (conflict)
+            return setToast(
+        "This vet already has an appointment at that date and time.");
+        persist(
+            appointments.map((a) =>
+                a.id === id ? {...a, ...data, updatedAt: Date.now() } : a,
+            ),
+        );
+        setEditing(null);
+        setToast("Appointment updated successfully.");
+    }
+
+
+
+
 }
