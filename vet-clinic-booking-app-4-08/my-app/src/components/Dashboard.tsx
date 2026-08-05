@@ -65,8 +65,19 @@ export function Dashboard({ user, onLogout }: Props) {
         setEditing(null);
         setToast("Appointment updated successfully.");
     }
+    function deleteAppointment(id: string) {
+        persist(appointments.filter((a) => a.id !== id));
+        if (editing?.id === id) setEditing(null);
+        setToast("Appointment deleted successfully.");
+    }
 
-
-
+    function changeStatus(id: string, status: AppointmentStatus) {
+        persist(
+            appointments.map((a) => 
+            (a.id === id ? {...a, status, updatedAt: Date.now()} : a),
+            ),
+        );
+        setToast(`Appointment ${status}.`);
+    }
 
 }
