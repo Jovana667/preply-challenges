@@ -222,3 +222,99 @@ const getVipOrders = (orders: (Order & { customerId: string })[]): (Order & { cu
 const getVipOrders = (orders: (Order & { customerId: string })[]): (Order & { customerId: string })[] => {
   return orders.filter((o) => vipCustomerIds.includes(o.customerId));
 };
+
+// Category 5 Round 2: useMemo
+
+// Q1. Given orders: (Order & { total: number })[], compute totalRevenue — the sum of all
+// order totals — using useMemo, dependent on orders.
+
+// First attempt:
+const totalRevenue = useMemo(() => {
+return orders.reduce((acc, currentValue) => (acc, orders * order.total));
+}, [orders]);
+
+// Second attempt:
+const totalRevenue = useMemo(() => {
+return orders.reduce((acc, order) => (acc, orders + order.total, 0));
+}, [orders]);
+
+// Third attempt:
+const totalRevenue = useMemo(() => {
+return orders.reduce((acc, order) => (acc + order.total, 0));
+}, [orders]);
+
+// Fourth attempt:
+const totalRevenue = useMemo(() => {
+return orders.reduce((acc , order) => (acc + order.total, 0));
+}, [orders]);
+
+// Correct:
+const totalRevenue = useMemo(() => {
+  return orders.reduce((acc, order) => acc + order.total, 0);
+}, [orders]);
+
+
+// Q2. Given books: Book[] (with isRead: boolean), compute unreadCount — the number of
+// unread books — using useMemo, dependent on books.
+
+// First attempt (correct — no changes needed):
+const unreadCount = useMemo(() => {
+  return books.filter((b) => !b.isRead).length;
+}, [books]);
+
+// Correct:
+const unreadCount = useMemo(() => {
+  return books.filter((b) => !b.isRead).length;
+}, [books]);
+
+
+// Q3. Given products: Product[], compute cheapestPrice — the lowest price among all
+// products — using useMemo, dependent on products.
+
+// First attempt (correct — no changes needed):
+const cheapestPrice = useMemo(() => {
+  return Math.min(...products.map((p) => p.price));
+}, [products]);
+
+// Correct:
+const cheapestPrice = useMemo(() => {
+  return Math.min(...products.map((p) => p.price));
+}, [products]);
+
+
+// Q4. Given comments: Comment[], compute averageTextLength — the average length of the
+// text field across all comments — using useMemo, dependent on comments.
+
+// First attempt:
+const averageTextLength = useMemo(() => {
+return comments.reduce((acc, c) => acc + c.text, 0) / c.length;
+}, [comments]);
+
+// Correct:
+const averageTextLength = useMemo(() => {
+  return comments.reduce((acc, c) => acc + c.text.length, 0) / comments.length;
+}, [comments]);
+
+
+// Q5. Given tickets: Ticket[] (with priority: string, values like "high"/"low"), compute
+// highPriorityPercentage — what percent of tickets have priority === "high" — using
+// useMemo, dependent on tickets.
+
+// First attempt:
+const highPriorityPercentage = useMemo(() => {
+const highPriorityCount = highPriority.length;
+const lowPriorityCount = lowPriority.length;
+return highPriorityCount / lowPriorityCount * 100;
+}, [tickets]);
+
+// Second attempt:
+const highPriorityCount = tickets.filter((t) => t.highPriority).length;
+const totalCount = tickets.length;
+return highPriorityCount / totalCount * 100;
+
+// Correct:
+const highPriorityPercentage = useMemo(() => {
+  const highPriorityCount = tickets.filter((t) => t.priority === "high").length;
+  const totalCount = tickets.length;
+  return highPriorityCount / totalCount * 100;
+}, [tickets]);
