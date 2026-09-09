@@ -134,4 +134,91 @@ const getPinnedComments = (comments: Comment[]): Comment[] => {
 
 
 // Q5. Clear all comments — reset the array back to empty.
-// (Not yet attempted — pick up here next session.)
+
+// (Completed the next morning — no first attempt recorded)
+
+// Correct:
+const clearComments = () => {
+  setComments([]);
+};
+
+
+// ============================================================
+
+
+// Bonus Round: Filtering Using an External Array/Value Already in Scope
+// (New pattern — using .includes() or direct comparison against a value from outer scope,
+// not passed in as a parameter)
+
+// Q1. Given blockedIds: string[] (already in scope), write getUnblockedUsers — takes
+// users: User[], returns User[], keeping only users whose id is NOT in blockedIds.
+
+// First attempt:
+const getUnbockedUsers = (users: User[]): User[] => {
+return users.filter((u) => !blockedIds.includes(u.id));
+}
+
+// Correct (logic was right first try — just fix the typo in the function name):
+const getUnblockedUsers = (users: User[]): User[] => {
+  return users.filter((u) => !blockedIds.includes(u.id));
+};
+
+
+// Q2. Given favoriteGenres: string[] (already in scope), write getMatchingBooks — takes
+// books: (Book & { genre: string })[], returns the same type, keeping only books whose
+// genre IS in favoriteGenres.
+
+// First attempt:
+const getMatchingBooks = (books: (Book & { genre: string })[]): books (Book & {genre: string}[])); => {
+return books.filter((b) => favoriteGenre.includes(b.id));
+}
+
+// Correct:
+const getMatchingBooks = (books: (Book & { genre: string })[]): (Book & { genre: string })[] => {
+  return books.filter((b) => favoriteGenres.includes(b.genre));
+};
+
+
+// Q3. Given currentUserId: string (already in scope, a single string — not an array), write
+// getMyOrders — takes orders: (Order & { userId: string })[], returns the same type,
+// keeping only orders where userId matches currentUserId.
+
+// First attempt (correct — no changes needed):
+const getMyOrders = (orders: (Order & { userId: string })[]): (Order & { userId: string})[] => {
+  return orders.filter((o) => o.userId === currentUserId);
+};
+
+// Correct:
+const getMyOrders = (orders: (Order & { userId: string })[]): (Order & { userId: string })[] => {
+  return orders.filter((o) => o.userId === currentUserId);
+};
+
+
+// Q4. Given mutedTagIds: string[] (already in scope), write getVisibleNotes — takes
+// notes: (Note & { tagId: string })[], returns the same type, keeping only notes whose
+// tagId is NOT in mutedTagIds.
+
+// First attempt (correct — no changes needed):
+const getVisibleNotes = (notes: (Note & { tagId: string })[]): (Note & {tagId: string})[] => {
+  return notes.filter((n) => !mutedTagIds.includes(n.tagId));
+}
+
+// Correct:
+const getVisibleNotes = (notes: (Note & { tagId: string })[]): (Note & { tagId: string })[] => {
+  return notes.filter((n) => !mutedTagIds.includes(n.tagId));
+};
+
+
+// Q5. Given vipCustomerIds: string[] (already in scope), write getVipOrders — takes
+// orders: (Order & { customerId: string })[], returns the same type, keeping only orders
+// whose customerId IS in vipCustomerIds.
+
+// First attempt (correct — no changes needed):
+const getVipOrders = (orders: (Order & { customerId: string })[]): (Order & { customerId: string})[] => {
+  return orders.filter((o) => vipCustomerIds.includes(o.customerId));
+}
+
+// Correct:
+const getVipOrders = (orders: (Order & { customerId: string })[]): (Order & { customerId: string })[] => {
+  return orders.filter((o) => vipCustomerIds.includes(o.customerId));
+};
