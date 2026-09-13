@@ -137,3 +137,15 @@ setReviews(reviews.map((r) => r.id === id ? {...r, verified: newVerified} :r));
 const markReview = (id: string) => {
   setReviews(reviews.map((r) => r.id === id ? { ...r, verified: true } : r));
 };
+
+
+const averageRating = useMemo(() => {
+return reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+}, [reviews]);
+
+
+
+const pendingCount = useMemo(() => {
+return orders.filter((o) => o.status === "pending").length;
+}, [orders]);
+
