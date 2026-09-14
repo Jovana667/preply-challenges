@@ -139,13 +139,92 @@ const markReview = (id: string) => {
 };
 
 
+// Category 5 Round 3: useMemo
+
+// Q1. Given reviews: Review[], compute averageRating — the average rating across all reviews.
+
+// First attempt:
+const averageRating = (reviews: Review[]) => {
+return reviews.rating / reviews.length
+}
+
+// Second attempt:
 const averageRating = useMemo(() => {
-return reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+return reviews.reduce((acc, r) => rating, 0 / reviews.length;
+}, [reviews]);
+
+// Third attempt:
+const averageRating = useMemo(() => {
+return reviews.reduce((acc, r) => acc + r.rating, 0 / reviews.length);
+}, [reviews]);
+
+// Fourth attempt:
+const averageRating = useMemo(() => {
+return reviews.reduce((acc, r) => acc + rating, 0) / reviews.length);
+}, [reviews]);
+
+// Correct:
+const averageRating = useMemo(() => {
+  return reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
 }, [reviews]);
 
 
+// Q2. Given orders: Order[] (with status: string), compute pendingCount — the number of
+// orders where status === "pending".
 
+// First attempt:
 const pendingCount = useMemo(() => {
-return orders.filter((o) => o.status === "pending").length;
+return orders.filter((o) => o.pending).length;
 }, [orders]);
 
+// Correct:
+const pendingCount = useMemo(() => {
+  return orders.filter((o) => o.status === "pending").length;
+}, [orders]);
+
+
+// Q3. Given products: Product[], compute mostExpensivePrice — the highest price.
+
+// First attempt (correct — no changes needed):
+const mostExpensivePrice = useMemo(() => {
+  return Math.max(...products.map((p) => p.price));
+}, [products]);
+
+// Correct:
+const mostExpensivePrice = useMemo(() => {
+  return Math.max(...products.map((p) => p.price));
+}, [products]);
+
+
+// Q4. Given tickets: Ticket[] (with resolved: boolean), compute resolvedPercentage —
+// what percent are resolved.
+
+// First attempt:
+const resolvedPercentage = useMemo(() => {
+const resolvedCount = ticekts.filer((t) => t.resolved === "true").length;
+const totalCount = tickets.length;
+return resolvedCount / totalCount * 100;
+}, [tickets]);
+
+// Correct:
+const resolvedPercentage = useMemo(() => {
+  const resolvedCount = tickets.filter((t) => t.resolved === true).length;
+  const totalCount = tickets.length;
+  return resolvedCount / totalCount * 100;
+}, [tickets]);
+// Note: t.resolved alone (no === true) would work identically and is more idiomatic,
+// since resolved is already a boolean.
+
+
+// Q5. Given comments: Comment[], compute shortestTextLength — the length of the
+// shortest text string.
+
+// First attempt (correct — no changes needed):
+const shortestTextLength = useMemo(() => {
+  return Math.min(...comments.map((c) => c.text.length));
+}, [comments]);
+
+// Correct:
+const shortestTextLength = useMemo(() => {
+  return Math.min(...comments.map((c) => c.text.length));
+}, [comments]);
