@@ -91,32 +91,91 @@ const getVerifiedProfiles = (users: User[]): User[] => {
 
 
 // ============================================================
+ 
+// First attempt:
 const removeUser = (id: string) => {
 setUsers(users.filter((u) => u.id !== id);
 };
-
+ 
 const updateBio = (id: string, newBio: string) => {
 setUsers(user.map((u) => u.id === id ? {...u, u.bio: newBio}: u);
 };
-
+ 
 const getUnblockedUsers = (id: string) => {
 users.filter((u) => !u.blocked);
 };
-
+ 
+// Correct:
+const removeUser = (id: string) => {
+  setUsers(users.filter((u) => u.id !== id));
+};
+ 
+const updateBio = (id: string, newBio: string) => {
+  setUsers(users.map((u) => u.id === id ? { ...u, bio: newBio } : u));
+};
+ 
+const getUnblockedUsers = (users: User[]): User[] => {
+  return users.filter((u) => !blockedUserIds.includes(u.id));
+};
+ 
+ 
+// ============================================================
+ 
+ 
+// HeartLink Drills — Category 5: useMemo
+ 
+// Q9. Given likes: LikeRecord[], compute likeCount — number where decision === "like".
+ 
+// First attempt (counted ALL likes, not just decision === "like"):
 const likeCount = useMemo(() => {
 return likes.length;
 }, [likes];
-
+ 
+// Correct:
+const likeCount = useMemo(() => {
+  return likes.filter((l) => l.decision === "like").length;
+}, [likes]);
+ 
+ 
+// Q10. Given matches: Match[], compute totalMatches — just the count.
+ 
+// First attempt (returned the array, not the count):
 const totalMatches = useMemo(() => {
 return matches;
 }, [matches];
-
+ 
+// Correct:
+const totalMatches = useMemo(() => {
+  return matches.length;
+}, [matches]);
+ 
+ 
+// Q11. Given messages: Message[] and currentUserId: string (already in scope),
+// compute messagesFromMe — count where senderId === currentUserId.
+ 
+// First attempt (wrong property, currentUserId treated as a property on the message):
 const messagesFromMe = useMemo(() => {
 return messages.filter((m) => m.id === m.currentUserId).length;
 }, [messages];
-
+ 
+// Correct:
+const messagesFromMe = useMemo(() => {
+  return messages.filter((m) => m.senderId === currentUserId).length;
+}, [messages]);
+ 
+ 
+// Q12. Given users: User[], compute averageAge — written as two named steps.
+ 
+// First attempt (unsure how to extract and sum the age property):
 const averageAge = useMemo(() => {
 const age = users.
 const totalUsers = users.reduce((acc, u) => acc + u, 0);
 return age/totalUsers
 }, [users];
+ 
+// Correct:
+const averageAge = useMemo(() => {
+  const totalAge = users.reduce((acc, u) => acc + u.age, 0);
+  const userCount = users.length;
+  return totalAge / userCount;
+}, [users]);
