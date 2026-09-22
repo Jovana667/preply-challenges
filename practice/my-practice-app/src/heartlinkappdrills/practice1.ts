@@ -91,16 +91,32 @@ const getVerifiedProfiles = (users: User[]): User[] => {
 
 
 // ============================================================
-// Still to do next session:
-// Category 4 (setUsers, a User[] setter):
-//   Q6. Remove the user with a given id.
-//   Q7. Update the bio of the user matching a given id to a new newBio.
-//   Q8. Given blockedUserIds: string[] already in scope, write getUnblockedUsers —
-//       standalone function (no setter) returning users not in that list.
-//
-// Category 5 (useMemo):
-//   Q9. Given likes: LikeRecord[], compute likeCount — number where decision === "like".
-//   Q10. Given matches: Match[], compute totalMatches — just the count.
-//   Q11. Given messages: Message[] and currentUserId: string (already in scope),
-//        compute messagesFromMe — count where senderId === currentUserId.
-//   Q12. Given users: User[], compute averageAge — written as two named steps.
+const removeUser = (id: string) => {
+setUsers(users.filter((u) => u.id !== id);
+};
+
+const updateBio = (id: string, newBio: string) => {
+setUsers(user.map((u) => u.id === id ? {...u, u.bio: newBio}: u);
+};
+
+const getUnblockedUsers = (id: string) => {
+users.filter((u) => !u.blocked);
+};
+
+const likeCount = useMemo(() => {
+return likes.length;
+}, [likes];
+
+const totalMatches = useMemo(() => {
+return matches;
+}, [matches];
+
+const messagesFromMe = useMemo(() => {
+return messages.filter((m) => m.id === m.currentUserId).length;
+}, [messages];
+
+const averageAge = useMemo(() => {
+const age = users.
+const totalUsers = users.reduce((acc, u) => acc + u, 0);
+return age/totalUsers
+}, [users];
